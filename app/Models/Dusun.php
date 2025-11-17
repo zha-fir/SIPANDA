@@ -9,13 +9,12 @@ class Dusun extends Model
 {
     use HasFactory;
 
-    /**
-     * Beritahu Laravel untuk menggunakan tabel 'tabel_dusun'
-     */
     protected $table = 'tabel_dusun';
+    public $timestamps = false;
 
     /**
-     * Beritahu Laravel bahwa kita TIDAK menggunakan timestamps
+     * TAMBAHKAN INI:
+     * Beritahu Laravel apa nama Primary Key kita.
      */
-    public $timestamps = false;
+    protected $primaryKey = 'id_dusun';
 }

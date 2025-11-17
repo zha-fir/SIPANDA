@@ -103,6 +103,16 @@
                 <label for="kewarganegaraan">Kewarganegaraan</label>
                 <input type="text" class="form-control" id="kewarganegaraan" name="kewarganegaraan" value="{{ old('kewarganegaraan', 'WNI') }}">
             </div>
+            {{-- TAMBAHKAN INFO INI --}}
+            <hr>
+            <div class="alert alert-info small">
+                <i class="fas fa-info-circle"></i> 
+                <strong>Catatan:</strong> Akun login akan dibuat secara otomatis.
+                <ul>
+                    <li><strong>Username:</strong> Akan diisi sesuai NIK</li>
+                    <li><strong>Password Default:</strong> 123456</li>
+                </ul>
+            </div>
             
             <a href="{{ route('warga.index') }}" class="btn btn-secondary">Batal</a>
             <button type="submit" class="btn btn-primary">Simpan</button>

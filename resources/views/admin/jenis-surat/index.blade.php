@@ -38,12 +38,18 @@
                         <td>{{ $surat->kode_surat }}</td>
                         <td>{{ $surat->template_file }}</td>
                         <td>
-                            <a href="#" class="btn btn-sm btn-warning">
+                            <a href="{{ route('jenis-surat.edit', $surat->id_jenis_surat) }}" class="btn btn-sm btn-warning">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
-                            <a href="#" class="btn btn-sm btn-danger">
-                                <i class="fas fa-trash"></i> Hapus
-                            </a>
+                            <form action="{{ route('jenis-surat.destroy', $surat->id_jenis_surat) }}" method="POST" 
+                                class="d-inline" 
+                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus template surat ini?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     @empty

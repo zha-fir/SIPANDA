@@ -74,8 +74,8 @@
                        class="list-group-item list-group-item-action @if(Request::is('warga/dashboard*')) active @endif">
                         <i class="fas fa-tachometer-alt fa-fw me-2"></i>Dashboard
                     </a>
-                    <a href="#" 
-                       class="list-group-item list-group-item-action @if(Request::is('warga/ajuan-surat*')) active @endif">
+                    <a href="{{ route('warga.ajuan.create') }}" 
+                         class="list-group-item list-group-item-action @if(Request::is('warga/ajuan-surat*')) active @endif">
                         <i class="fas fa-file-alt fa-fw me-2"></i>Buat Ajuan Surat
                     </a>
                     <a href="#" 

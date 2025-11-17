@@ -50,7 +50,7 @@ class AuthController extends Controller
             } elseif ($user->role == 'admin' || $user->role == 'kades') {
                 // Jika rolenya 'admin' atau 'kades', arahkan ke dashboard admin
                 // Kita pakai 'dusun.index' sebagai halaman utama admin
-                return redirect()->route('dusun.index'); 
+                return redirect()->route('admin.dashboard'); 
 
             } else {
                 // Jika rolenya tidak jelas, tolak

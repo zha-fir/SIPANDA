@@ -44,16 +44,27 @@
                             {{ $kk->dusun->nama_dusun ?? 'Belum Diatur' }}
                         </td>
                         <td>{{ $kk->rt }}/{{ $kk->rw }}</td>
+                        {{-- ... (Di dalam loop @forelse) ... --}}
                         <td>
-                            <a href="#" class="btn btn-sm btn-info">
+                            <a href="{{ route('kk.members', $kk->id_kk) }}" class="btn btn-sm btn-info">
                                 <i class="fas fa-users"></i> Anggota
                             </a>
-                            <a href="#" class="btn btn-sm btn-warning">
+                            
+                            {{-- 1. Perbaiki link Edit --}}
+                            <a href="{{ route('kk.edit', $kk->id_kk) }}" class="btn btn-sm btn-warning">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
-                            <a href="#" class="btn btn-sm btn-danger">
-                                <i class="fas fa-trash"></i> Hapus
-                            </a>
+
+                            {{-- 2. Ubah link Hapus menjadi Form --}}
+                            <form action="{{ route('kk.destroy', $kk->id_kk) }}" method="POST" 
+                                class="d-inline" 
+                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus data KK ini? SEMUA warga yang terhubung juga akan terpengaruh.');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     @empty

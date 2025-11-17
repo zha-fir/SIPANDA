@@ -22,4 +22,9 @@ class KK extends Model
         // Parameter: (Model Tujuan, foreign_key_di_tabel_ini, primary_key_di_tabel_tujuan)
         return $this->belongsTo(Dusun::class, 'id_dusun', 'id_dusun');
     }
+
+    public function warga()
+    {
+        return $this->hasMany(Warga::class, 'id_kk', 'id_kk');
+    }
 }

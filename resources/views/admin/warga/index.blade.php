@@ -26,36 +26,59 @@
         </a>
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                {{-- Ubah <theadD> --}}
+                
+                {{-- HEADER HARUS DI LUAR LOOP --}}
                 <thead>
                     <tr>
                         <th>NIK</th>
                         <th>Nama Lengkap</th>
                         <th>No. KK</th>
+                        <th>Akun Login</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
+                
+                {{-- BODY (ISI DATA) --}}
                 <tbody>
                     @forelse ($wargaList as $warga)
                     <tr>
                         <td>{{ $warga->nik }}</td>
                         <td>{{ $warga->nama_lengkap }}</td>
-                        <td>{{ $warga->kk->no_kk ?? 'Tidak ada KK' }}</td>
                         <td>
-                            <a href="#" class="btn btn-sm btn-warning">
+                            {{ $warga->kk->no_kk ?? 'Tidak ada KK' }}
+                        </td>
+                        <td>
+                            @if($warga->user)
+                                <span class="badge badge-success">Ada</span>
+                            @else
+                                <span class="badge badge-secondary">Belum Ada</span> 
+                            @endif
+                        </td>
+                        <td>
+                            {{-- Tombol Edit --}}
+                            <a href="{{ route('warga.edit', $warga->id_warga) }}" class="btn btn-sm btn-warning">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
-                            <a href="#" class="btn btn-sm btn-danger">
-                                <i class="fas fa-trash"></i> Hapus
-                            </a>
+
+                            {{-- Tombol Hapus --}}
+                            <form action="{{ route('warga.destroy', $warga->id_warga) }}" method="POST" 
+                                class="d-inline" 
+                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus data warga ini? Akun login yang terhubung (jika ada) juga akan dihapus permanen.');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="text-center">Data masih kosong.</td> {{-- Ubah colspan jadi 5 --}}
+                        <td colspan="6" class="text-center">Data masih kosong.</td>
                     </tr>
                     @endforelse
                 </tbody>
+
             </table>
         </div>
     </div>

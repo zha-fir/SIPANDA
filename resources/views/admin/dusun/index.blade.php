@@ -36,22 +36,31 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- Loop data $dusunList yang dikirim dari Controller --}}
+                    {{-- Loop data dusunList dari Controller --}}
                     @forelse ($dusunList as $dusun)
                     <tr>
+                        {{-- PASTIKAN DUA BARIS INI ADA --}}
                         <td>{{ $dusun->id_dusun }}</td>
                         <td>{{ $dusun->nama_dusun }}</td>
+
+                        {{-- Ini adalah kode untuk Tombol Aksi --}}
                         <td>
-                            <a href="#" class="btn btn-sm btn-warning">
+                            <a href="{{ route('dusun.edit', $dusun->id_dusun) }}" class="btn btn-sm btn-warning">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
-                            <a href="#" class="btn btn-sm btn-danger">
-                                <i class="fas fa-trash"></i> Hapus
-                            </a>
+
+                            <form action="{{ route('dusun.destroy', $dusun->id_dusun) }}" method="POST" 
+                                class="d-inline" 
+                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     @empty
-                    {{-- Jika data kosong --}}
                     <tr>
                         <td colspan="3" class="text-center">Data masih kosong.</td>
                     </tr>

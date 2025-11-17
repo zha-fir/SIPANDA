@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AjuanSurat extends Model
 {
     use HasFactory;
+    public $timestamps = false;
 
     protected $table = 'tabel_ajuan_surat'; // Hubungkan ke tabel
     protected $primaryKey = 'id_ajuan'; // Tentukan primary key

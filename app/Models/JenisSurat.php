@@ -12,4 +12,5 @@ class JenisSurat extends Model
     protected $table = 'tabel_jenis_surat';
     protected $primaryKey = 'id_jenis_surat';
     public $timestamps = false; // Kita tidak pakai timestamps
+    
 }

@@ -25,7 +25,7 @@
 
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin/dusun">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin/dashboard">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-university"></i>
                 </div>
@@ -34,8 +34,8 @@
 
             <hr class="sidebar-divider my-0">
 
-            <li class="nav-item">
-                <a class="nav-link" href="#">
+            <li class="nav-item @if(Request::is('admin/dashboard*')) active @endif">
+                <a class="nav-link" href="{{ route('admin.dashboard') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -78,7 +78,7 @@
             <li class="nav-item @if(Request::is('admin/jenis-surat*')) active @endif">
                 <a class="nav-link" href="{{ route('jenis-surat.index') }}">
                     <i class="fas fa-fw fa-envelope-open-text"></i>
-                    <span>Manajemen Jenis Surat</span></a>
+                    <span>Template Surat</span></a>
             </li>
 
             <li class="nav-item @if(Request::is('admin/ajuan-surat*') && !Request::is('admin/arsip-surat*')) active @endif">
