@@ -38,45 +38,45 @@ class WargaController extends Controller
     }
 
     /**
-     * Menyimpan data warga baru ke database.
-     */
-    public function store(Request $request)
-    {
-        // 1. Validasi (ini akan jadi validasi terpanjang)
-        $request->validate([
-            'nik' => 'required|string|size:16|unique:tabel_warga',
-            'nama_lengkap' => 'required|string|max:100',
-            'id_kk' => 'required|integer|exists:tabel_kk,id_kk', // Pastikan id_kk ada
-            'tempat_lahir' => 'nullable|string|max:100',
-            'tanggal_lahir' => 'nullable|date',
-            'jenis_kelamin' => 'nullable|in:LAKI-LAKI,PEREMPUAN',
-            'agama' => 'nullable|string|max:50',
-            'status_perkawinan' => 'nullable|string|max:50',
-            'pekerjaan' => 'nullable|string|max:100',
-            'kewarganegaraan' => 'nullable|string|max:50',
-        ], [
-            'nik.required' => 'NIK wajib diisi.',
-            'nik.unique' => 'NIK ini sudah terdaftar.',
-            'id_kk.required' => 'Kartu Keluarga wajib dipilih.',
-        ]);
+ * Menyimpan data warga baru ke database (VERSI BERSIH).
+ */
+public function store(Request $request)
+{
+    // 1. Validasi (hanya data warga)
+    $request->validate([
+        'nik' => 'required|string|size:16|unique:tabel_warga',
+        'nama_lengkap' => 'required|string|max:100',
+        'id_kk' => 'required|integer|exists:tabel_kk,id_kk',
+        'tempat_lahir' => 'nullable|string|max:100',
+        'tanggal_lahir' => 'nullable|date',
+        'jenis_kelamin' => 'nullable|in:LAKI-LAKI,PEREMPUAN',
+        'agama' => 'nullable|string|max:50',
+        'status_perkawinan' => 'nullable|string|max:50',
+        'pekerjaan' => 'nullable|string|max:100',
+        'kewarganegaraan' => 'nullable|string|max:50',
+    ], [
+        'nik.required' => 'NIK wajib diisi.',
+        'nik.unique' => 'NIK ini sudah terdaftar.',
+        'id_kk.required' => 'Kartu Keluarga wajib dipilih.',
+    ]);
 
-        // 2. Simpan data
-        $warga = new Warga();
-        $warga->nik = $request->nik;
-        $warga->nama_lengkap = $request->nama_lengkap;
-        $warga->id_kk = $request->id_kk;
-        $warga->tempat_lahir = $request->tempat_lahir;
-        $warga->tanggal_lahir = $request->tanggal_lahir;
-        $warga->jenis_kelamin = $request->jenis_kelamin;
-        $warga->agama = $request->agama;
-        $warga->status_perkawinan = $request->status_perkawinan;
-        $warga->pekerjaan = $request->pekerjaan;
-        $warga->kewarganegaraan = $request->kewarganegaraan ?? 'WNI'; // Default WNI
-        $warga->save();
+    // 2. Simpan data warga (tanpa logika akun)
+    $warga = new Warga();
+    $warga->nik = $request->nik;
+    $warga->nama_lengkap = $request->nama_lengkap;
+    $warga->id_kk = $request->id_kk;
+    // Kolom 'id_user' akan otomatis NULL (kosong)
+    $warga->tempat_lahir = $request->tempat_lahir;
+    $warga->tanggal_lahir = $request->tanggal_lahir;
+    $warga->jenis_kelamin = $request->jenis_kelamin;
+    $warga->agama = $request->agama;
+    $warga->status_perkawinan = $request->status_perkawinan;
+    $warga->pekerjaan = $request->pekerjaan;
+    $warga->kewarganegaraan = $request->kewarganegaraan ?? 'WNI';
+    $warga->save();
 
-        // 3. Arahkan kembali
-        return Redirect::route('warga.index')->with('success', 'Data warga berhasil ditambahkan.');
-    }
+    return Redirect::route('warga.index')->with('success', 'Data warga berhasil ditambahkan.');
+}
 
     // ... (biarkan fungsi show, edit, update, destroy kosong dulu) ...
 }

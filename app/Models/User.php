@@ -2,47 +2,54 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Foundation\Auth\User as Authenticatable; // <-- Tetap pakai ini
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
+     * Beritahu Laravel untuk menggunakan tabel 'tabel_users'
+     */
+    protected $table = 'tabel_users';
+
+    /**
+     * Beritahu Laravel apa Primary Key-nya
+     */
+    protected $primaryKey = 'id_user';
+
+    /**
+     * Kita tidak pakai timestamps (created_at/updated_at)
+     */
+    public $timestamps = false;
+
+    /**
+     * Kolom yang boleh diisi (meskipun kita tidak buat registrasi)
      */
     protected $fillable = [
-        'name',
-        'email',
+        'username',
+        'nama_lengkap',
         'password',
+        'role',
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
+     * Kolom yang disembunyikan
      */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
+     * TAMBAHKAN INI:
+     * Mendefinisikan relasi "satu-ke-satu" (inverse) ke Warga.
+     * Satu akun User dimiliki oleh satu Warga.
      */
-    protected function casts(): array
+    public function warga()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->hasOne(Warga::class, 'id_user', 'id_user');
     }
 }

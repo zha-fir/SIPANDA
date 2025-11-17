@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Manajemen Warga (Kependudukan)')
+@section('title', 'Manajemen Jenis Surat')
 
 @section('content')
 
@@ -15,32 +15,28 @@
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Data Warga</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Data Jenis Surat</h6>
     </div>
     <div class="card-body">
-        <a href="{{ route('warga.create') }}" class="btn btn-primary mb-3">
-            <i class="fas fa-plus"></i> Tambah Data Warga
-        </a>
-        <a href="{{ route('admin.warga.import.form') }}" class="btn btn-success mb-3 ml-2">
-            <i class="fas fa-file-excel"></i> Import Warga .XLS
+        <a href="{{ route('jenis-surat.create') }}" class="btn btn-primary mb-3">
+            <i class="fas fa-plus"></i> Tambah Jenis Surat
         </a>
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                {{-- Ubah <theadD> --}}
                 <thead>
                     <tr>
-                        <th>NIK</th>
-                        <th>Nama Lengkap</th>
-                        <th>No. KK</th>
+                        <th>Nama Surat</th>
+                        <th>Kode Surat</th>
+                        <th>File Template</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($wargaList as $warga)
+                    @forelse ($suratList as $surat)
                     <tr>
-                        <td>{{ $warga->nik }}</td>
-                        <td>{{ $warga->nama_lengkap }}</td>
-                        <td>{{ $warga->kk->no_kk ?? 'Tidak ada KK' }}</td>
+                        <td>{{ $surat->nama_surat }}</td>
+                        <td>{{ $surat->kode_surat }}</td>
+                        <td>{{ $surat->template_file }}</td>
                         <td>
                             <a href="#" class="btn btn-sm btn-warning">
                                 <i class="fas fa-edit"></i> Edit
@@ -52,12 +48,12 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="text-center">Data masih kosong.</td> {{-- Ubah colspan jadi 5 --}}
+                        <td colspan="4" class="text-center">Data masih kosong.</td>
                     </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
     </div>
-</div> {{-- PERBAIKAN KEDUA: '}' yang error sudah dihapus dari sini --}}
+</div>
 @endsection

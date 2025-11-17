@@ -17,7 +17,6 @@
         rel="stylesheet">
 
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
-
 </head>
 
 <body id="page-top">
@@ -65,6 +64,36 @@
                     <span>Data Penduduk</span></a>
             </li>
 
+            <!-- <li class="nav-item @if(Request::is('admin/import-warga*')) active @endif">
+            <a class="nav-link" href="{{ route('admin.warga.import.form') }}">
+                <i class="fas fa-fw fa-file-import"></i>
+                <span>Import Warga</span></a>
+            </li> -->
+
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">
+                Layanan Surat
+            </div>
+            
+            <li class="nav-item @if(Request::is('admin/jenis-surat*')) active @endif">
+                <a class="nav-link" href="{{ route('jenis-surat.index') }}">
+                    <i class="fas fa-fw fa-envelope-open-text"></i>
+                    <span>Manajemen Jenis Surat</span></a>
+            </li>
+
+            <li class="nav-item @if(Request::is('admin/ajuan-surat*') && !Request::is('admin/arsip-surat*')) active @endif">
+                <a class="nav-link" href="{{ route('ajuan-surat.index') }}">
+                    <i class="fas fa-fw fa-inbox"></i>
+                    <span>Ajuan Surat Masuk</span>
+                </a>
+            </li>
+
+            <li class="nav-item @if(Request::is('admin/arsip-surat*')) active @endif">
+                <a class="nav-link" href="{{ route('ajuan-surat.arsip') }}">
+                    <i class="fas fa-fw fa-archive"></i>
+                    <span>Arsip Surat</span></a>
+            </li>
+
             <hr class="sidebar-divider d-none d-md-block">
 
             <div class="text-center d-none d-md-inline">
@@ -87,10 +116,13 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Administrator</span>
+                                {{-- Tampilkan nama user yang login --}}
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->nama_lengkap ?? 'Administrator' }}</span>
+                                
                                 <img class="img-profile rounded-circle"
                                     src="{{ asset('img/undraw_profile.svg') }}">
                             </a>
+                            
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
@@ -98,6 +130,7 @@
                                     Profile
                                 </a>
                                 <div class="dropdown-divider"></div>
+                                {{-- INI ADALAH LINK PEMICU MODAL (BUKAN FORM) --}}
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
@@ -142,19 +175,28 @@
                 <div class="modal-body">Pilih "Logout" di bawah jika Anda siap untuk mengakhiri sesi Anda saat ini.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-                    <a class="btn btn-primary" href="#">Logout</a>
-                </div>
+                    
+                    {{-- Ini adalah form yang terhubung ke route 'warga.logout' --}}
+                    <form action="{{ route('warga.logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-primary">Logout</button>
+                    </form>
+                  </div>
             </div>
         </div>
     </div>
 
+ {{-- HAPUS SEMUA SKRIP GANDA YANG ANDA MILIKI SEBELUMNYA --}}
+    
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
     <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
     <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
-
+    
+    {{-- @stack('scripts') harus di paling akhir --}}
+    @stack('scripts')
 </body>
 
 </html>
