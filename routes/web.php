@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\Admin\PejabatDesaController;
 use App\Http\Controllers\Admin\DusunController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\KKController;
@@ -44,6 +45,7 @@ Route::prefix('warga')->group(function () {
     // Grup Rute untuk Admin, dengan prefix 'admin'
     Route::prefix('admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+        Route::resource('pejabat-desa', PejabatDesaController::class);
         
         // Ini akan otomatis membuat semua URL untuk CRUD Dusun
         // seperti: admin/dusun, admin/dusun/create, admin/dusun/1/edit, dll.

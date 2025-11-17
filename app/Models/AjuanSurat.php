@@ -19,9 +19,10 @@ class AjuanSurat extends Model
         'id_warga', 
         'id_jenis_surat', 
         'status', 
-        'nomor_surat_lengkap', 
-        'catatan_penolakan', 
-        'file_hasil'
+        'catatan_penolakan',
+        'keperluan',
+        'nomor_surat',
+        'id_pejabat_desa' // <-- Diperbarui
     ];
 
     /**
@@ -38,5 +39,10 @@ class AjuanSurat extends Model
     public function jenisSurat()
     {
         return $this->belongsTo(JenisSurat::class, 'id_jenis_surat', 'id_jenis_surat');
+    }
+
+    public function pejabatDesa()
+    {
+        return $this->belongsTo(PejabatDesa::class, 'id_pejabat_desa', 'id_pejabat_desa');
     }
 }

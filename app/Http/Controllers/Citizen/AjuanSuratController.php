@@ -36,9 +36,11 @@ class AjuanSuratController extends Controller
     {
         // 1. Validasi input
         $request->validate([
-            'id_jenis_surat' => 'required|integer|exists:tabel_jenis_surat,id_jenis_surat'
+            'id_jenis_surat' => 'required|integer|exists:tabel_jenis_surat,id_jenis_surat',
+            'keperluan' => 'required|string|max:255'
         ], [
-            'id_jenis_surat.required' => 'Anda harus memilih salah satu jenis surat.'
+            'id_jenis_surat.required' => 'Anda harus memilih salah satu jenis surat.',
+            'keperluan.required' => 'Keperluan wajib diisi.'
         ]);
 
         // 2. Ambil data warga yang sedang login

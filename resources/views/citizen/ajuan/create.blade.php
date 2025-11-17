@@ -44,6 +44,13 @@
                     @endforeach
                 </select>
             </div>
+            <div class="mb-3">
+                <label for="keperluan" class="form-label">
+                    <strong>Keperluan Surat</strong>
+                </label>
+                <textarea class="form-control" id="keperluan" name="keperluan" rows="3" 
+                        placeholder="Contoh: Persyaratan Melamar Pekerjaan">{{ old('keperluan') }}</textarea>
+            </div>
 
             <p class="text-muted small">
                 Dengan mengklik "Ajukan Surat", Anda menyatakan bahwa data yang digunakan (data diri Anda) adalah benar dan valid.

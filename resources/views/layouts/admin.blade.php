@@ -63,7 +63,12 @@
                     <i class="fas fa-fw fa-address-book"></i>
                     <span>Data Penduduk</span></a>
             </li>
-
+            <li class="nav-item @if(Request::is('admin/pejabat-desa*')) active @endif">
+                <a class="nav-link" href="{{ route('pejabat-desa.index') }}">
+                    <i class="fas fa-fw fa-user-tie"></i>
+                    <span>Manajemen Pejabat Desa</span>
+                </a>
+            </li>
             <!-- <li class="nav-item @if(Request::is('admin/import-warga*')) active @endif">
             <a class="nav-link" href="{{ route('admin.warga.import.form') }}">
                 <i class="fas fa-fw fa-file-import"></i>
