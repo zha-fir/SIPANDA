@@ -107,60 +107,101 @@ class AjuanSuratController extends Controller
         }
 
         try {
-            // 4. Proses PHPWord
-            $templateProcessor = new TemplateProcessor($templatePath);
+        $templateProcessor = new TemplateProcessor($templatePath);
+        $warga = $ajuan->warga;
+        $kk = $warga->kk;
 
-            // --- Isi Data Warga ---
-            $templateProcessor->setValue('nama_lengkap', $warga->nama_lengkap);
-            $templateProcessor->setValue('nik', $warga->nik);
-            $templateProcessor->setValue('tempat_lahir', $warga->tempat_lahir);
-            $templateProcessor->setValue('tanggal_lahir', Carbon::parse($warga->tanggal_lahir)->isoFormat('D MMMM Y'));
-            $templateProcessor->setValue('jenis_kelamin', $warga->jenis_kelamin);
-            $templateProcessor->setValue('agama', $warga->agama);
-            $templateProcessor->setValue('pekerjaan', $warga->pekerjaan);
-            $templateProcessor->setValue('status_perkawinan', $warga->status_perkawinan);
-            $templateProcessor->setValue('kewarganegaraan', $warga->kewarganegaraan);
+        // ==========================================
+        // A. DATA STATIS (Warga & Alamat)
+        // ==========================================
+        $templateProcessor->setValue('nama_lengkap', $warga->nama_lengkap);
+        $templateProcessor->setValue('nik', $warga->nik);
+        $templateProcessor->setValue('tempat_lahir', $warga->tempat_lahir);
+        
+        // Format Tanggal Lahir (contoh: 20 Januari 1985)
+        $tglLahir = Carbon::parse($warga->tanggal_lahir)->isoFormat('D MMMM Y');
+        $templateProcessor->setValue('tanggal_lahir', $tglLahir);
+        
+        $templateProcessor->setValue('jenis_kelamin', $warga->jenis_kelamin);
+        $templateProcessor->setValue('agama', $warga->agama);
+        $templateProcessor->setValue('pekerjaan', $warga->pekerjaan);
+        $templateProcessor->setValue('kewarganegaraan', $warga->kewarganegaraan);
+        
+        // Alamat gabungan (sesuai template Anda yang minta ${alamat})
+        $alamatLengkap = ($kk->alamat_kk ?? '-') . " RT " . ($kk->rt ?? '-') . "/RW " . ($kk->rw ?? '-') . " Desa " . ($kk->dusun->nama_dusun ?? '-');
+        $templateProcessor->setValue('alamat', $alamatLengkap);
 
-            // --- Isi Data KK & Alamat ---
-            $templateProcessor->setValue('alamat_kk', $kk->alamat_kk);
-            $templateProcessor->setValue('rt', $kk->rt);
-            $templateProcessor->setValue('rw', $kk->rw);
-            $templateProcessor->setValue('nama_dusun', $kk->dusun->nama_dusun ?? 'N/A');
 
-            // --- Isi Data Ajuan (YANG BARU) ---
-            $templateProcessor->setValue('keperluan', $ajuan->keperluan);
-            $templateProcessor->setValue('nomor_surat', $ajuan->nomor_surat);
-            
-            // --- Isi Data Pejabat (YANG BARU) ---
-            $templateProcessor->setValue('nama_pejabat', $pejabat->nama_pejabat ?? 'N/A');
-            $templateProcessor->setValue('jabatan_pejabat', $pejabat->jabatan ?? 'N/A');
+        // ==========================================
+        // B. DATA HITUNGAN (Umur)
+        // ==========================================
+        // Hitung umur otomatis dari tanggal lahir
+        $umur = Carbon::parse($warga->tanggal_lahir)->age;
+        $templateProcessor->setValue('umur', $umur . ' Tahun');
 
-            // --- INI BAGIAN YANG DIPERBAIKI ---
-            
-            // 5. Buat nama file dan simpan sementara
-            $namaWargaClean = str_replace(' ', '_', $warga->nama_lengkap);
-            $outputFileName = $jenisSurat->kode_surat . '_' . $namaWargaClean . '_' . date('d-m-Y') . '.docx';
-            
-            // Tentukan path sementara di 'storage/app/temp/'
-            $tempPath = storage_path('app/temp/' . $outputFileName);
 
-            // Pastikan folder 'temp' ada
-            if (!Storage::exists('temp')) {
-                Storage::makeDirectory('temp');
-            }
-            
-            // Simpan file yang sudah diisi ke path sementara
-            $templateProcessor->saveAs($tempPath);
+        // ==========================================
+        // C. DATA ADMIN (Pejabat & Surat)
+        // ==========================================
+        // Di template Anda tertulis ${kode_surat}, tapi di DB kita 'nomor_surat'
+        $templateProcessor->setValue('kode_surat', $ajuan->nomor_surat);
+        
+        // Tanggal Pembuatan Surat (Hari ini)
+        $templateProcessor->setValue('tanggal_pembuatan', Carbon::now()->isoFormat('D MMMM Y'));
 
-            // 6. Download file tersebut dan hapus setelah selesai
-            return response()->download($tempPath)->deleteFileAfterSend(true);
-            
-            // --- AKHIR PERBAIKAN ---
-
-        } catch (\Exception $e) {
-            // Tangkap error jika template ${variabel} tidak cocok
-            return redirect()->route('ajuan-surat.arsip')->with('error', 'Gagal generate surat. Pastikan template Word sesuai. Error: ' . $e->getMessage());
+        // Data Pejabat
+        if ($ajuan->pejabatDesa) {
+            $templateProcessor->setValue('nama_pejabat', $ajuan->pejabatDesa->nama_pejabat);
+            $templateProcessor->setValue('jabatan', $ajuan->pejabatDesa->jabatan);
+            // Jika Anda nanti tambah kolom NIP di tabel pejabat, panggil di sini.
+            // Untuk sekarang kita isi strip dulu jika belum ada kolomnya
+            $templateProcessor->setValue('nip', $ajuan->pejabatDesa->nip ?? '-'); 
+        } else {
+            $templateProcessor->setValue('nama_pejabat', '-');
+            $templateProcessor->setValue('jabatan', '-');
+            $templateProcessor->setValue('nip', '-');
         }
+
+
+        // ==========================================
+        // D. DATA DINAMIS (JSON) - "Tas Ajaib"
+        // ==========================================
+        // Bongkar JSON
+        $extra = json_decode($ajuan->data_tambahan, true) ?? [];
+            //SKU   
+            $templateProcessor->setValue('bidang_usaha', $extra['bidang_usaha'] ?? '-');
+            $templateProcessor->setValue('nama_usaha', $extra['nama_usaha'] ?? '-');
+            $templateProcessor->setValue('lokasi_usaha', $extra['lokasi_usaha'] ?? '-');
+            
+            // SKTM
+            $templateProcessor->setValue('penghasilan', $extra['penghasilan'] ?? '-');
+            $templateProcessor->setValue('jumlah_tanggungan', $extra['jumlah_tanggungan'] ?? '-');
+            
+            // Kehilangan
+            $templateProcessor->setValue('barang_hilang', $extra['barang_hilang'] ?? '-');
+            $templateProcessor->setValue('lokasi_kehilangan', $extra['lokasi_kehilangan'] ?? '-');
+            
+            // Kematian
+            $templateProcessor->setValue('hari_meninggal', $extra['hari_meninggal'] ?? '-');
+            $templateProcessor->setValue('tgl_meninggal', $extra['tgl_meninggal'] ?? '-');
+            $templateProcessor->setValue('penyebab_kematian', $extra['penyebab_kematian'] ?? '-');
+            $templateProcessor->setValue('tempat_meninggal', $extra['tempat_meninggal'] ?? '-');
+
+        
+        // 5. Download File
+        $outputFileName = $ajuan->jenisSurat->kode_surat . '_' . str_replace(' ', '_', $warga->nama_lengkap) . '.docx';
+        $tempPath = storage_path('app/temp/' . $outputFileName);
+        
+        if (!Storage::exists('temp')) { Storage::makeDirectory('temp'); }
+        
+        $templateProcessor->saveAs($tempPath);
+        return response()->download($tempPath)->deleteFileAfterSend(true);
+
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
+    }
+
+
     }
 
     /**

@@ -22,7 +22,8 @@ class AjuanSurat extends Model
         'catatan_penolakan',
         'keperluan',
         'nomor_surat',
-        'id_pejabat_desa' // <-- Diperbarui
+        'id_pejabat_desa',
+        'data_tambahan' // <-- Diperbarui
     ];
 
     /**

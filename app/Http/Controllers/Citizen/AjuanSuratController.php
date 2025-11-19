@@ -34,26 +34,53 @@ class AjuanSuratController extends Controller
      */
     public function store(Request $request)
     {
-        // 1. Validasi input
+        // 1. Validasi dasar
         $request->validate([
             'id_jenis_surat' => 'required|integer|exists:tabel_jenis_surat,id_jenis_surat',
-            'keperluan' => 'required|string|max:255'
-        ], [
-            'id_jenis_surat.required' => 'Anda harus memilih salah satu jenis surat.',
-            'keperluan.required' => 'Keperluan wajib diisi.'
+            'keperluan' => 'required|string|max:255',
         ]);
 
-        // 2. Ambil data warga yang sedang login
-        $warga = Auth::user()->warga;
+        // 2. Definisikan semua kemungkinan input tambahan (sesuai name di HTML)
+        $kemungkinanInput = [
+            // Untuk SKU
+            'bidang_usaha', 
+            'nama_usaha', 
+            'lokasi_usaha',
+            // Untuk SKTM
+            'penghasilan', 
+            'jumlah_tanggungan', 
+            // Untuk Kehilangan
+            'barang_hilang', 
+            'lokasi_kehilangan',
+            // Untuk Kematian
+            'hari_meninggal',
+            'tgl_meninggal',
+            'penyebab_kematian',
+            'tempat_meninggal'
+        ];
 
-        // 3. Simpan data ajuan baru
+        $dataTambahan = [];
+
+        // 3. Cek satu per satu: jika warga mengisinya, kita simpan
+        foreach ($kemungkinanInput as $input) {
+            if ($request->filled($input)) {
+                $dataTambahan[$input] = $request->input($input);
+            }
+        }
+
+        // 4. Simpan ke Database
         $ajuan = new AjuanSurat();
-        $ajuan->id_warga = $warga->id_warga;
+        $ajuan->id_warga = Auth::user()->warga->id_warga;
         $ajuan->id_jenis_surat = $request->id_jenis_surat;
-        $ajuan->status = 'BARU'; // Status awal selalu 'BARU'
+        $ajuan->keperluan = $request->keperluan;
+        
+        // Bungkus array jadi JSON string. Contoh: {"bidang_usaha":"Kuliner"}
+        // Jika kosong, biarkan null
+        $ajuan->data_tambahan = count($dataTambahan) > 0 ? json_encode($dataTambahan) : null;
+        
+        $ajuan->status = 'BARU';
         $ajuan->save();
 
-        // 4. Arahkan kembali ke dashboard dengan pesan sukses
-        return Redirect::route('warga.dashboard')->with('success', 'Ajuan surat Anda telah berhasil terkirim. Silakan tunggu konfirmasi dari Admin.');
+        return Redirect::route('warga.dashboard')->with('success', 'Ajuan surat Anda telah berhasil terkirim.');
     }
 }
