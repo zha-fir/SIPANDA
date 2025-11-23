@@ -26,10 +26,10 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin/dashboard">
-                <div class="sidebar-brand-icon rotate-n-15">
+                <div class="sidebar-brand-icon">
                     <i class="fas fa-university"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SIM Administrasi</div>
+                <div class="sidebar-brand-text mx-3">SIPANDA</div>
             </a>
 
             <hr class="sidebar-divider my-0">
@@ -119,7 +119,7 @@
 
 
         </ul>
-        <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content-wrapper" class="d-flex flex-column min-vh-100">
 
             <div id="content">
 
@@ -170,7 +170,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Sistem Administrasi Masyarakat 2025</span>
+                        <span>Copyright &copy; Pemerintah Desa Panggulo 2025</span>
                     </div>
                 </div>
             </footer>

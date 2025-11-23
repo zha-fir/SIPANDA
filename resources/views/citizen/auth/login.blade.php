@@ -1,44 +1,80 @@
 @extends('layouts.guest')
 
-@section('title', 'Login Warga')
+@section('title', 'Login')
 
 @section('content')
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card shadow-sm border-0">
-                <div class="card-body p-4">
-                    <h3 class="text-center mb-1">Login Warga</h3>
-                    <p class="text-center text-muted mb-4">Sistem Pelayanan Administrasi</p>
 
-                    {{-- Menampilkan error validasi (jika ada) --}}
-                    @if ($errors->any())
-                        <div class="alert alert-danger" role="alert">
-                            {{ $errors->first() }}
-                        </div>
-                    @endif
+{{-- PERUBAHAN GRID SYSTEM --}}
+{{-- col-12: HP Penuh --}}
+{{-- col-sm-10: Tablet Kecil agak tengah --}}
+{{-- col-md-6: Tablet Besar setengah layar --}}
+{{-- col-lg-4: Laptop sepertiga layar --}}
 
-                    <form action="{{ route('warga.login.submit') }}" method="POST">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Username (NIK)</label>
-                            <input type="text" class="form-control" id="username" name="username"
-                                value="{{ old('username') }}" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <div class="input-group">
-                                <input type="password" class="form-control" id="password" name="password" required>
-                                <button class="btn btn-outline-secondary btn-toggle-password" type="button">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="d-grid mt-4">
-                            <button type="submit" class="btn btn-primary">Login</button>
-                        </div>
-                    </form>
-                </div>
+<div class="col-12 col-sm-10 col-md-6 col-lg-4">
+    
+    <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+        
+        <div class="card-header bg-primary text-white text-center py-3 border-0" 
+             style="background: linear-gradient(45deg, #0d6efd, #0a58ca);">
+            <div class="mb-1">
+                <i class="fas fa-landmark fa-2x"></i>
             </div>
+            <h5 class="fw-bold mb-0">SIPANDA</h5>
+            <small class="text-white-50" style="font-size: 0.75rem;">Sistem Pelayanan Administrasi Desa Panggulo</small>
+        </div>
+
+        <div class="card-body p-4 bg-white">
+            
+            @if ($errors->any())
+                <div class="alert alert-danger py-2 small border-0 shadow-sm rounded-3 mb-3">
+                    <i class="fas fa-exclamation-circle me-1"></i> {{ $errors->first() }}
+                </div>
+            @endif
+
+            <form action="{{ route('warga.login.submit') }}" method="POST">
+                @csrf
+                
+                <div class="form-group mb-3">
+                    <label class="form-label small text-muted fw-bold mb-1">USERNAME / NIK</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0 text-primary">
+                            <i class="fas fa-id-card"></i>
+                        </span>
+                        <input type="text" class="form-control bg-light border-start-0 ps-0" 
+                               id="username" name="username" 
+                               value="{{ old('username') }}" 
+                               placeholder="Masukkan NIK" required>
+                    </div>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label class="form-label small text-muted fw-bold mb-1">PASSWORD</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0 text-primary">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input type="password" class="form-control bg-light border-start-0 ps-0" 
+                               id="password" name="password" 
+                               placeholder="Masukkan Password" required>
+                        <button class="btn btn-light border border-start-0 btn-toggle-password" type="button">
+                            <i class="fas fa-eye text-muted"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary fw-bold shadow-sm rounded-3 py-2">
+                        MASUK <i class="fas fa-sign-in-alt ms-2"></i>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+        
+        <div class="card-footer bg-light text-center py-2 border-0">
+            <small class="text-muted" style="font-size: 0.75rem;">Belum punya akun? Hubungi Kantor Desa.</small>
         </div>
     </div>
+
+</div>
 @endsection
