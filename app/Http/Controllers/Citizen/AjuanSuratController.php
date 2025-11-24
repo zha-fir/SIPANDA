@@ -56,7 +56,8 @@ class AjuanSuratController extends Controller
             'hari_meninggal',
             'tgl_meninggal',
             'penyebab_kematian',
-            'tempat_meninggal'
+            'tempat_meninggal',
+            'nama_pemilik_rumah'
         ];
 
         $dataTambahan = [];

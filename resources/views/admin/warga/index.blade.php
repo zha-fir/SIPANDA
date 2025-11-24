@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Manajemen Warga (Kependudukan)')
+@section('title', 'Data Penduduk')
 
 @section('content')
 
@@ -18,12 +18,39 @@
             <h6 class="m-0 font-weight-bold text-primary">Data Warga</h6>
         </div>
         <div class="card-body">
-            <a href="{{ route('warga.create') }}" class="btn btn-primary mb-3">
-                <i class="fas fa-plus"></i> Tambah Data Warga
-            </a>
-            <a href="{{ route('admin.warga.import.form') }}" class="btn btn-success mb-3 ml-2">
-                <i class="fas fa-file-excel"></i> Import Warga .XLS
-            </a>
+
+            {{-- BARIS TOMBOL & PENCARIAN --}}
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                {{-- Kiri: Tombol Aksi --}}
+                <div>
+                    <a href="{{ route('warga.create') }}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Tambah Warga
+                    </a>
+                    <a href="{{ route('admin.warga.import.form') }}" class="btn btn-success ml-2">
+                        <i class="fas fa-file-excel"></i> Import Excel
+                    </a>
+                </div>
+
+                {{-- Kanan: Form Pencarian --}}
+                <form action="{{ route('warga.index') }}" method="GET" class="form-inline">
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control bg-light border-0 small"
+                            placeholder="Cari NIK atau Nama..." aria-label="Search" value="{{ request('search') }}">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button" onclick="this.form.submit()">
+                                <i class="fas fa-search fa-sm"></i>
+                            </button>
+                            @if(request('search'))
+                                <a href="{{ route('warga.index') }}" class="btn btn-secondary" title="Reset">
+                                    <i class="fas fa-times"></i>
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                </form>
+
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 
@@ -97,6 +124,9 @@
                     </tbody>
 
                 </table>
+                <div class="mt-3">
+                    {{ $wargaList->links() }}
+                </div>
             </div>
         </div>
     </div> {{-- PERBAIKAN KEDUA: '}' yang error sudah dihapus dari sini --}}

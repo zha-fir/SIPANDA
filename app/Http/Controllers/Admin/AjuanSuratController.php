@@ -128,6 +128,7 @@ class AjuanSuratController extends Controller
         $templateProcessor->setValue('agama', $warga->agama);
         $templateProcessor->setValue('pekerjaan', $warga->pekerjaan);
         $templateProcessor->setValue('kewarganegaraan', $warga->kewarganegaraan);
+    
         
         // Alamat gabungan (sesuai template Anda yang minta ${alamat})
         $alamatLengkap = ($kk->alamat_kk ?? '-') . " RT " . ($kk->rt ?? '-') . "/RW " . ($kk->rw ?? '-') . " Desa " . ($kk->dusun->nama_dusun ?? '-');
@@ -216,6 +217,12 @@ class AjuanSuratController extends Controller
             $templateProcessor->setValue('tgl_meninggal', $extra['tgl_meninggal'] ?? '-');
             $templateProcessor->setValue('penyebab_kematian', $extra['penyebab_kematian'] ?? '-');
             $templateProcessor->setValue('tempat_meninggal', $extra['tempat_meninggal'] ?? '-');
+
+            $templateProcessor->setValue('nama_pemilik_rumah', $extra['nama_pemilik_rumah'] ?? '-');
+
+            // Mapping Alamat Pejabat (Hardcode Alamat Kantor Desa agar rapi)
+            // Atau Anda bisa ambil dari $pejabat->alamat jika nanti Anda menambahkan kolom alamat di tabel pejabat
+            $templateProcessor->setValue('alamat_pejabat', 'Desa Panggulo, Kec. Botupingge');
 
         
         // 5. Download File

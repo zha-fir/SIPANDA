@@ -13,13 +13,29 @@ class KKController extends Controller
     /**
      * Menampilkan daftar semua KK.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // KITA GUNAKAN 'with('dusun')'
-        // Ini adalah "Eager Loading" di Laravel.
-        // Ini mengambil data KK sekaligus data Dusun yang terelasi
-        // agar lebih efisien dan tidak error N+1 query.
-        $kkList = KK::with(['dusun', 'kepalaKeluarga'])->get();
+        // 1. Mulai Query dengan Eager Loading
+        $query = KK::with(['dusun', 'kepalaKeluarga']);
+
+        // 2. Logika Pencarian
+        if ($request->filled('search')) {
+            $search = $request->search;
+            
+            $query->where(function($q) use ($search) {
+                // Cari berdasarkan Nomor KK (langsung di tabel KK)
+                $q->where('no_kk', 'like', "%{$search}%")
+                  
+                  // ATAU Cari berdasarkan Nama Kepala Keluarga (di tabel Warga)
+                  ->orWhereHas('kepalaKeluarga', function($subQ) use ($search) {
+                      $subQ->where('nama_lengkap', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        // 3. Ambil data dengan Pagination
+        $kkList = $query->paginate(10)->withQueryString();
+
         return view('admin.kk.index', compact('kkList'));
     }
 

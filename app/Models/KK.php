@@ -13,6 +13,14 @@ class KK extends Model
     protected $primaryKey = 'id_kk'; // Tentukan primary key
     public $timestamps = false; // Kita tidak pakai timestamps
 
+    protected $fillable = [
+        'no_kk',
+        'nama_kepala_keluarga', // Meskipun nullable, tetap harus didaftarkan
+        'alamat_kk',
+        'rt',
+        'rw',
+        'id_dusun',
+    ];
     /**
      * Mendefinisikan relasi "belongsTo" ke Model Dusun.
      * Satu KK hanya dimiliki oleh satu Dusun.

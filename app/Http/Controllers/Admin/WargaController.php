@@ -16,15 +16,27 @@ class WargaController extends Controller
     /**
      * Menampilkan daftar semua warga.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Ambil data warga, beserta data 'kk' yang terelasi
-        // Kita juga bisa mengambil data 'dusun' melalui 'kk'
-        $wargaList = Warga::with('kk.dusun')->get();
+        // 1. Mulai Query (dengan eager loading relasi)
+        $query = Warga::with(['kk.dusun', 'user']);
 
-        return view('admin.warga.index', [
-            'wargaList' => $wargaList
-        ]);
+        // 2. Cek apakah ada pencarian?
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('nik', 'like', "%{$search}%")
+                  ->orWhere('nama_lengkap', 'like', "%{$search}%");
+            });
+        }
+
+        // 3. Ambil data (Paginate 10 per halaman)
+        // withQueryString() penting agar saat pindah halaman 2, pencarian tidak hilang
+        $wargaList = $query->orderBy('nama_lengkap', 'asc')
+                           ->paginate(10)
+                           ->withQueryString();
+
+        return view('admin.warga.index', compact('wargaList'));
     }
 
     /**

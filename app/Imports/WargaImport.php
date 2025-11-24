@@ -79,6 +79,7 @@ class WargaImport implements ToCollection, WithHeadingRow
                     'tanggal_lahir' => $tanggalLahir, // <-- Gunakan variabel yang sudah diterjemahkan
                     'jenis_kelamin' => $row['jenis_kelamin'] ?? null,
                     'agama' => $row['agama'] ?? null,
+                    'status_dalam_keluarga' => strtoupper($row['status_hubungan'] ?? 'FAMILI LAIN'),
                     'status_perkawinan' => $row['status_perkawinan'] ?? null,
                     'pekerjaan' => $row['pekerjaan'] ?? null,
                     'kewarganegaraan' => $row['kewarganegaraan'] ?? 'WNI',

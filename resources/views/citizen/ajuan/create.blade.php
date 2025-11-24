@@ -154,6 +154,20 @@
                     </div>
                 </div>
 
+                {{-- 5. FORM KHUSUS MENUMPANG --}}
+                <div class="card bg-light border-0 mb-3 d-none extra-form" id="form_menumpang">
+                    <div class="card-body">
+                        <h6 class="text-primary fw-bold"><i class="fas fa-home me-1"></i> Detail Tempat Tinggal</h6>
+                        <div class="form-group">
+                            <label class="form-label small fw-bold">Nama Orang Tua / Pemilik Rumah</label>
+                            <input type="text" class="form-control input-extra" name="nama_pemilik_rumah"
+                                placeholder="Contoh: Budi Santoso (Ayah)">
+                            <small class="text-muted">Masukkan nama lengkap orang tua atau pemilik rumah yang Anda
+                                tumpangi.</small>
+                        </div>
+                    </div>
+                </div>
+
                 {{-- ================================================= --}}
                 {{-- BATAS AKHIR FORM DINAMIS --}}
                 {{-- ================================================= --}}
@@ -188,14 +202,14 @@
             // Saat dropdown berubah
             $('#id_jenis_surat').change(function () {
 
-                // Ambil teks pilihan dan ubah ke huruf kecil
+                // 1. Ambil teks pilihan dan ubah ke huruf kecil
                 var selectedText = $(this).find("option:selected").text().toLowerCase();
 
-                // 1. Sembunyikan SEMUA form tambahan & Kosongkan isinya
+                // 2. RESET: Sembunyikan SEMUA form tambahan & Kosongkan isinya
                 $('.extra-form').addClass('d-none');
                 $('.input-extra').val('');
 
-                // 2. Cek logika kata kunci
+                // 3. LOGIKA DETEKSI (Tambahkan logika 'menumpang' di sini)
 
                 // SKU
                 if (selectedText.includes('usaha')) {
@@ -213,6 +227,11 @@
                 else if (selectedText.includes('mati') || selectedText.includes('meninggal')) {
                     $('#form_kematian').removeClass('d-none');
                 }
+                // --- TAMBAHAN BARU UNTUK MENUMPANG ---
+                else if (selectedText.includes('menumpang')) {
+                    $('#form_menumpang').removeClass('d-none');
+                }
+
             });
         });
     </script>
