@@ -258,7 +258,7 @@
                 <footer class="mt-auto mt-5">
                     <div class="border-top pt-2">
                         <div class="container text-center">
-                            <p class="text-muted small mb-2">&copy; {{ date('Y') }} <strong>Pemerintah Desa Panggulo</strong>.</p>
+                            <p class="text-muted small mb-2">&copy; {{ date('Y') }} <strong>Kelompok 1 SIPANDA 2025</strong>.</p>
                         </div>
                     </div>
                 </footer>
