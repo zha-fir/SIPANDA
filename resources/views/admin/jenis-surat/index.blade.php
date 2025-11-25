@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Manajemen Jenis Surat')
+@section('title', 'Manajemen Data Surat')
 
 @section('content')
 
@@ -15,11 +15,11 @@
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Data Jenis Surat</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Data Surat</h6>
     </div>
     <div class="card-body">
         <a href="{{ route('jenis-surat.create') }}" class="btn btn-primary mb-3">
-            <i class="fas fa-plus"></i> Tambah Jenis Surat
+            <i class="fas fa-plus"></i> Tambah Data Surat
         </a>
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">

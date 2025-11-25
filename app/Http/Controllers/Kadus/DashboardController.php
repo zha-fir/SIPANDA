@@ -17,14 +17,14 @@ class DashboardController extends Controller
     public function index()
     {
         // 1. Ambil ID Dusun milik Kadus yang sedang login
-        $idDusun = Auth::user()->id_dusun;
+        $idDusun = \Illuminate\Support\Facades\Auth::user()->id_dusun;
 
         if (!$idDusun) {
             abort(403, 'Akun Anda tidak terhubung dengan wilayah Dusun manapun.');
         }
 
-        // 2. Statistik Warga (Hanya di Dusun ini)
-        // Kita filter Warga yang KK-nya ada di Dusun ini
+        // 2. Statistik Kartu (Warga & KK)
+        // Menggunakan whereHas untuk memfilter berdasarkan dusun dari tabel KK
         $totalWarga = Warga::whereHas('kk', function($q) use ($idDusun) {
             $q->where('id_dusun', $idDusun);
         })->count();
@@ -32,11 +32,32 @@ class DashboardController extends Controller
         $totalKK = KK::where('id_dusun', $idDusun)->count();
 
         // 3. Statistik Surat (Hanya warga Dusun ini)
-        $suratMasuk = AjuanSurat::whereHas('warga.kk', function($q) use ($idDusun) {
+        $querySurat = AjuanSurat::whereHas('warga.kk', function($q) use ($idDusun) {
             $q->where('id_dusun', $idDusun);
-        })->where('status', 'BARU')->count();
+        });
 
-        return view('kadus.dashboard', compact('totalWarga', 'totalKK', 'suratMasuk'));
+        $suratMasuk = (clone $querySurat)->where('status', 'BARU')->count();
+        $suratSelesai = (clone $querySurat)->where('status', 'SELESAI')->count();
+
+        // 4. Data untuk Grafik Pie (Gender)
+        $wargaLaki = Warga::whereHas('kk', function($q) use ($idDusun) {
+            $q->where('id_dusun', $idDusun);
+        })->where('jenis_kelamin', 'LAKI-LAKI')->count();
+
+        $wargaPerempuan = Warga::whereHas('kk', function($q) use ($idDusun) {
+            $q->where('id_dusun', $idDusun);
+        })->where('jenis_kelamin', 'PEREMPUAN')->count();
+
+        // 5. Data Tabel (5 Surat Terakhir dari Dusun ini)
+        $suratTerbaru = $querySurat->with(['warga', 'jenisSurat'])
+                                   ->orderBy('tanggal_ajuan', 'desc')
+                                   ->limit(5)
+                                   ->get();
+
+        return view('kadus.dashboard', compact(
+            'totalWarga', 'totalKK', 'suratMasuk', 'suratSelesai',
+            'wargaLaki', 'wargaPerempuan', 'suratTerbaru'
+        ));
     }
 
     /**

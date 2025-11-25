@@ -17,6 +17,62 @@
         rel="stylesheet">
 
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+    {{-- TAMBAHKAN CSS INI --}}
+    <style>
+        /* Hanya terapkan efek ini di layar Desktop (lebar > 768px) */
+        @media (min-width: 768px) {
+            
+            /* 1. Kunci Sidebar di Kiri */
+            ul.navbar-nav.sidebar {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                z-index: 1000;
+                overflow-y: auto; /* Agar menu sidebar bisa discroll jika terlalu panjang */
+            }
+
+            /* 2. Geser Konten Utama ke Kanan (memberi ruang untuk sidebar) */
+            #content-wrapper {
+                margin-left: 14rem; /* Lebar default sidebar SB Admin 2 (224px) */
+                min-height: 100vh;
+            }
+
+            /* 3. Kunci Navbar (Topbar) di Atas */
+            nav.topbar {
+                position: fixed;
+                top: 0;
+                right: 0;
+                left: 14rem; /* Mulai setelah sidebar */
+                z-index: 900;
+                width: auto;
+            }
+
+            /* 4. Turunkan Isi Konten (agar tidak tertutup Navbar) */
+            .container-fluid {
+                padding-top: 6rem; /* Memberi jarak dari atas */
+            }
+
+            /* --- PENYESUAIAN SAAT SIDEBAR DIKECILKAN (TOGGLED) --- */
+            
+            /* Saat sidebar kecil, lebarnya jadi 6.5rem */
+            .sidebar.toggled {
+                width: 6.5rem !important;
+                overflow: visible;
+            }
+
+            /* Sesuaikan margin konten saat sidebar kecil */
+            body.sidebar-toggled #content-wrapper {
+                margin-left: 6.5rem;
+            }
+
+            /* Sesuaikan posisi navbar saat sidebar kecil */
+            body.sidebar-toggled nav.topbar {
+                left: 6.5rem;
+            }
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -26,10 +82,10 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin/dashboard">
-                <div class="sidebar-brand-icon rotate-n-15">
+                <div class="sidebar-brand-icon">
                     <i class="fas fa-university"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SIM Administrasi</div>
+                <div class="sidebar-brand-text mx-3">SIPANDA</div>
             </a>
 
             <hr class="sidebar-divider my-0">
@@ -37,17 +93,17 @@
             <li class="nav-item @if(Request::is('kadus/dashboard*')) active @endif">
                 <a class="nav-link" href="{{ route('kadus.dashboard') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard Wilayah</span></a>
+                    <span>Dashboard</span></a>
             </li>
 
             <hr class="sidebar-divider">
 
-            <div class="sidebar-heading">Menu Wilayah</div>
+            <div class="sidebar-heading">Menu</div>
 
             <li class="nav-item @if(Request::is('kadus/warga*')) active @endif">
                 <a class="nav-link" href="{{ route('kadus.warga') }}">
                     <i class="fas fa-fw fa-users"></i>
-                    <span>Warga Saya</span></a>
+                    <span>Penduduk Saya</span></a>
             </li>
 
             <li class="nav-item @if(Request::is('kadus/surat*')) active @endif">
@@ -87,10 +143,6 @@
 
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
                                 <div class="dropdown-divider"></div>
                                 {{-- INI ADALAH LINK PEMICU MODAL (BUKAN FORM) --}}
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
@@ -114,7 +166,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Sistem Administrasi Masyarakat 2025</span>
+                        <span>Copyright &copy; Kelompok 1 SIPANDA 2025</span>
                     </div>
                 </div>
             </footer>

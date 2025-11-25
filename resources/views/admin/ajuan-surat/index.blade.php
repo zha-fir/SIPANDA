@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Ajuan Surat Masuk')
+@section('title', 'Pengajuan Surat Masuk')
 @section('content')
 
     {{-- Tampilkan Pesan Sukses/Error --}}
@@ -21,14 +21,14 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Daftar Ajuan Surat (Status: BARU)</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Daftar Pengajuan (Status: BARU)</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable">
                     <thead>
                         <tr>
-                            <th>Tgl Ajuan</th>
+                            <th>Tanggal Pengajuan</th>
                             <th>Pemohon (NIK)</th>
                             <th>Jenis Surat</th>
                             <th>Keperluan</th>

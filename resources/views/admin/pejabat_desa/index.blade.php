@@ -6,7 +6,7 @@
         <h6 class="m-0 font-weight-bold text-primary">Data Pejabat Desa</h6>
     </div>
     <div class="card-body">
-        <a href="{{ route('pejabat-desa.create') }}" class="btn btn-primary mb-3">+ Pejabat</a>
+        <a href="{{ route('pejabat-desa.create') }}" class="btn btn-primary mb-3"><i class="fas fa-plus"></i> Tambah Pejabat</a>
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead> <tr> <th>ID</th> <th>Nama Pejabat</th> <th>Jabatan</th> <th>Aksi</th> </tr> </thead>

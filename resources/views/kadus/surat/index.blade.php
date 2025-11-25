@@ -1,12 +1,12 @@
 @extends('layouts.kadus')
 
-@section('title', 'Monitoring Surat Warga')
+@section('title', 'Monitoring Surat Penduduk')
 
 @section('content')
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Riwayat Pengajuan Surat (Warga Saya)</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Riwayat Pengajuan Surat</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">

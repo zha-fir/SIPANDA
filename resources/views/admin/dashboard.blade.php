@@ -182,15 +182,15 @@
             <div class="card-body">
                 <a href="{{ route('warga.create') }}" class="btn btn-success btn-icon-split btn-block mb-2 align-items-start justify-content-start">
                     <span class="icon text-white-50"><i class="fas fa-user-plus"></i></span>
-                    <span class="text text-left">Tambah Warga Baru</span>
+                    <span class="text text-left">Tambah Penduduk Baru</span>
                 </a>
                 <a href="{{ route('kk.create') }}" class="btn btn-info btn-icon-split btn-block mb-2 align-items-start justify-content-start">
                     <span class="icon text-white-50"><i class="fas fa-users"></i></span>
-                    <span class="text text-left">Buat Kartu Keluarga</span>
+                    <span class="text text-left">Tambah Data KK</span>
                 </a>
                 <a href="{{ route('jenis-surat.index') }}" class="btn btn-secondary btn-icon-split btn-block align-items-start justify-content-start">
                     <span class="icon text-white-50"><i class="fas fa-file-word"></i></span>
-                    <span class="text text-left">Kelola Template Surat</span>
+                    <span class="text text-left">Kelola Data Surat</span>
                 </a>
             </div>
         </div>

@@ -198,7 +198,7 @@
                                 <i class="fas fa-th-large fa-fw me-2"></i>Dashboard
                             </a>
                             <a href="{{ route('warga.ajuan.create') }}" class="list-group-item list-group-item-action @if(Request::is('warga/ajuan-surat*')) active @endif">
-                                <i class="fas fa-file-signature fa-fw me-2"></i>Buat Ajuan Surat
+                                <i class="fas fa-file-signature fa-fw me-2"></i>Buat Pengajuan Surat
                             </a>
                             <a href="{{ route('warga.ajuan.history') }}" class="list-group-item list-group-item-action @if(Request::is('warga/riwayat-ajuan*')) active @endif">
                                 <i class="fas fa-history fa-fw me-2"></i>Riwayat & Status

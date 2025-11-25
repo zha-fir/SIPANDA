@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Data Penduduk')
+@section('title', 'Manajemen Data Penduduk')
 
 @section('content')
 
@@ -15,7 +15,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Data Warga</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Data Penduduk</h6>
         </div>
         <div class="card-body">
 
@@ -25,7 +25,7 @@
                 {{-- Kiri: Tombol Aksi --}}
                 <div>
                     <a href="{{ route('warga.create') }}" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Tambah Warga
+                        <i class="fas fa-plus"></i> Tambah Penduduk
                     </a>
                     <a href="{{ route('admin.warga.import.form') }}" class="btn btn-success ml-2">
                         <i class="fas fa-file-excel"></i> Import Excel

@@ -6,7 +6,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Daftar Seluruh Warga</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Daftar Seluruh Penduduk</h6>
 
             <form action="{{ route('kades.penduduk.index') }}" method="GET" class="form-inline">
                 <div class="input-group">

@@ -30,7 +30,7 @@
                         Panggulo.</p>
                     <a href="{{ route('warga.ajuan.create') }}"
                         class="btn btn-light text-primary fw-bold px-4 py-2 shadow-sm">
-                        <i class="fas fa-plus-circle me-2"></i>Buat Ajuan Baru
+                        <i class="fas fa-plus-circle me-2"></i>Buat Pengajuan Baru
                     </a>
                 </div>
             </div>
@@ -40,7 +40,7 @@
             <div class="card shadow-sm border-0 h-100 card-hover">
                 <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center border-bottom-0">
                     <h6 class="mb-0 fw-bold text-dark">
-                        <i class="fas fa-history me-2 text-primary"></i>Status Ajuan Terakhir
+                        <i class="fas fa-history me-2 text-primary"></i>Status Pengajuan Terakhir
                     </h6>
                     <a href="{{ route('warga.ajuan.history') }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
                         Lihat Semua
