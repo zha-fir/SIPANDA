@@ -191,25 +191,60 @@
         <div class="col-lg-4 mb-4">
 
             <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-chart-pie me-2"></i> Demografi Penduduk
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-chart-pie mr-1"></i> Demografi Penduduk
+                        <small class="text-muted ml-2">({{ $labelFilter }})</small>
                     </h6>
+
+                    {{-- Form Filter Tahun --}}
+                    <form action="{{ route('admin.dashboard') }}" method="GET" class="form-inline">
+                        <select name="filter_tahun" class="custom-select custom-select-sm" onchange="this.form.submit()">
+                            <option value="">Semua Tahun</option>
+                            @foreach($tahunLahirList as $tahun)
+                                <option value="{{ $tahun }}" {{ request('filter_tahun') == $tahun ? 'selected' : '' }}>
+                                    {{ $tahun }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </form>
                 </div>
+
                 <div class="card-body">
-                    <h4 class="small font-weight-bold">Laki-laki <span class="float-right">{{ $persenLaki }}%</span></h4>
-                    <div class="progress mb-4">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{ $persenLaki }}%"></div>
-                    </div>
-                    <h4 class="small font-weight-bold">Perempuan <span class="float-right">{{ $persenPerempuan }}%</span>
-                    </h4>
-                    <div class="progress mb-4">
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: {{ $persenPerempuan }}%"></div>
-                    </div>
-                    <hr>
-                    <div class="text-center small text-muted">
-                        Total Laki-laki: <strong>{{ $wargaLaki }}</strong> | Total Perempuan:
-                        <strong>{{ $wargaPerempuan }}</strong>
-                    </div>
+                    @if($totalFilter > 0)
+                        {{-- Info Persentase Laki-laki --}}
+                        <h4 class="small font-weight-bold">
+                            Laki-laki
+                            <span class="float-right">{{ $demografiLaki }} Jiwa
+                                ({{ round(($demografiLaki / $totalFilter) * 100) }}%)</span>
+                        </h4>
+                        <div class="progress mb-4">
+                            <div class="progress-bar bg-primary" role="progressbar"
+                                style="width: {{ ($demografiLaki / $totalFilter) * 100 }}%">
+                            </div>
+                        </div>
+
+                        {{-- Info Persentase Perempuan --}}
+                        <h4 class="small font-weight-bold">
+                            Perempuan
+                            <span class="float-right">{{ $demografiPerempuan }} Jiwa
+                                ({{ round(($demografiPerempuan / $totalFilter) * 100) }}%)</span>
+                        </h4>
+                        <div class="progress mb-4">
+                            <div class="progress-bar bg-danger" role="progressbar"
+                                style="width: {{ ($demografiPerempuan / $totalFilter) * 100 }}%">
+                            </div>
+                        </div>
+
+                        <div class="text-center small mt-4 text-muted">
+                            Total Data: <strong>{{ $totalFilter }}</strong> Penduduk pada kategori ini.
+                        </div>
+                    @else
+                        <div class="text-center py-5 text-muted">
+                            <i class="fas fa-filter fa-2x mb-3"></i><br>
+                            Tidak ada data penduduk kelahiran tahun <strong>{{ request('filter_tahun') }}</strong>.
+                        </div>
+                    @endif
                 </div>
             </div>
 
